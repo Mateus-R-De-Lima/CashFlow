@@ -1,5 +1,6 @@
 ﻿using CashFlow.Application.UseCases.Expenses.Register;
 using CashFlow.Communication.Requests;
+using CashFlow.Communication.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +22,13 @@ namespace CashFlow.Api.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                var erroMessage = new ResponseErrosJson(ex.Message);
+                return BadRequest(erroMessage);
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Unknown error");
+                var erroMessage = new ResponseErrosJson("Unknown error");
+                return StatusCode(StatusCodes.Status500InternalServerError, erroMessage);
             }
 
         }
