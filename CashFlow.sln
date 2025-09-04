@@ -20,6 +20,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashFlow.Exception", "src\CashFlow.Exception\CashFlow.Exception.csproj", "{6C34C6F1-F34C-4DE8-8E0F-891FA894E009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validator.Tests", "testes\Validator.Tests\Validator.Tests.csproj", "{1A8AF819-856B-4908-A9D5-5FA553E59186}"
+	ProjectSection(ProjectDependencies) = postProject
+		{90AC5113-30E2-449A-893C-34CF3076D248} = {90AC5113-30E2-449A-893C-34CF3076D248}
+		{E2A44D4C-91A6-4E1C-986F-546AE4A119C4} = {E2A44D4C-91A6-4E1C-986F-546AE4A119C4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,5 +71,8 @@ Global
 		{75465E98-DD25-49B1-BA63-D05DA19883CB} = {D3A25641-57D6-4F61-B5BA-CBB46463ACEC}
 		{6C34C6F1-F34C-4DE8-8E0F-891FA894E009} = {D3A25641-57D6-4F61-B5BA-CBB46463ACEC}
 		{1A8AF819-856B-4908-A9D5-5FA553E59186} = {963B58D2-086C-45AE-B930-08DEB21E2108}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {529CC8B5-93A9-4C32-B263-C3B2F2227CB8}
 	EndGlobalSection
 EndGlobal
