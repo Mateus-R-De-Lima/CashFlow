@@ -7,7 +7,7 @@ namespace CommonTestUtilities.Request
     public class RequestRegisterExpenseJsonBuilder
     {
         
-        public RequestRegisterExpenseJson Build()
+        public static RequestRegisterExpenseJson Build()
         {
 
             return new Faker<RequestRegisterExpenseJson>()
