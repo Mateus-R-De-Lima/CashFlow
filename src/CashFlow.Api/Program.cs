@@ -1,5 +1,6 @@
 using CashFlow.Api.Filters;
 using CashFlow.Api.Middleware;
+using CashFlow.Application;
 using CashFlow.Infrastructure;
 using Scalar.AspNetCore;
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure();
+builder.Services.AddAplication();
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExecptionFilter)));
 
