@@ -1,5 +1,6 @@
 ﻿using CashFlow.Domain.Entities;
 using CashFlow.Domain.Repositories.Expenses;
+using System.Threading.Tasks;
 
 namespace CashFlow.Infrastructure.DataAccess.Repositories
 {
@@ -7,9 +8,9 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
         CashFlowDbContext dbContext
         ) : IExpensesRepository
     {
-        public void Add(Expense expense)
+        public async Task Add(Expense expense)
         {
-            dbContext.Expenses.Add(expense);
+           await dbContext.Expenses.AddAsync(expense);
            
         }
     }

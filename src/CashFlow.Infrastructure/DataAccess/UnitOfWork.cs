@@ -1,4 +1,5 @@
 ﻿using CashFlow.Domain.Repositories;
+using System.Threading.Tasks;
 
 namespace CashFlow.Infrastructure.DataAccess
 {
@@ -10,6 +11,6 @@ namespace CashFlow.Infrastructure.DataAccess
         {
             _dbContext = dbContext;
         }
-        public void Commit() => _dbContext.SaveChanges();
+        public async Task Commit() => await _dbContext.SaveChangesAsync();
     }
 }
