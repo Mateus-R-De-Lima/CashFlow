@@ -1,5 +1,8 @@
 using CashFlow.Api.Filters;
 using CashFlow.Api.Middleware;
+using CashFlow.Application;
+using CashFlow.Infrastructure;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAplication();
+
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExecptionFilter)));
 
 var app = builder.Build();
@@ -19,6 +26,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.MapScalarApiReference(options =>
+    {
+        options.OpenApiRoutePattern = "/swagger/v1/swagger.json"; // mesmo caminho que o Swagger está servindo
+    });
 }
 
 app.UseMiddleware<CultureMiddleware>();

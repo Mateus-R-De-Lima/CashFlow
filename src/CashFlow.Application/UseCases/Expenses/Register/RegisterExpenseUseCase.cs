@@ -1,24 +1,41 @@
-﻿using CashFlow.Communication.Requests;
+﻿using AutoMapper;
+using CashFlow.Communication.Requests;
 using CashFlow.Communication.Responses;
+using CashFlow.Domain.Entities;
+using CashFlow.Domain.Enums;
+using CashFlow.Domain.Repositories;
+using CashFlow.Domain.Repositories.Expenses;
 using CashFlow.Exception.ExceptionsBase;
 
 namespace CashFlow.Application.UseCases.Expenses.Register
 {
-    public class RegisterExpenseUseCase
+    public class RegisterExpenseUseCase(
+        IExpensesRepository repository,
+        IUnitOfWork unitOfWork,
+        IMapper mapper
+        ) : IRegisterExpenseUseCase
     {
-        public ResponseRegisteredJson Execute(RequestRegisterExpenseJson request)
+        public async Task<ResponseRegisteredJson> Execute(RequestRegisterExpenseJson request)
         {
             Validate(request);
-              
-            return new ResponseRegisteredJson();
+
+            var entity = mapper.Map<Expense>(request);
+
+            await repository.Add(entity);
+
+            await unitOfWork.Commit();
+
+            var response = mapper.Map<ResponseRegisteredJson>(entity);
+
+            return response;
         }
 
         private void Validate(RequestRegisterExpenseJson request)
         {
             var validator = new RegisterExpenseValidator();
-            
+
             var result = validator.Validate(request);
-         
+
             if (!result.IsValid)
             {
                 var errorMessages = result.Errors.Select(f => f.ErrorMessage).ToList();
