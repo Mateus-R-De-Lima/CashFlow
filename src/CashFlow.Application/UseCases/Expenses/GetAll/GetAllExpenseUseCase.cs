@@ -11,12 +11,12 @@ namespace CashFlow.Application.UseCases.Expenses.GetAll
         ) : IGetAllExpenseUseCase
     {
 
-        public async Task<ResponseExpenseJson> Execute()
+        public async Task<ResponsesExpenseJson> Execute()
         {
             var result = await repository.GetAll();
 
 
-            return new ResponseExpenseJson
+            return new ResponsesExpenseJson
             {
                 Expenses = mapper.Map<List<ResponseShortExpenseJson>>(result)
             };
