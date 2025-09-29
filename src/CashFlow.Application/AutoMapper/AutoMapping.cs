@@ -20,7 +20,9 @@ namespace CashFlow.Application.AutoMapper
 
         private void AutoMappingResponse()
         {
-            CreateMap<Expense, ResponseRegisteredJson>();
+            CreateMap<Expense, ResponseExpenseJson>();
+
+            CreateMap<Expense, ResponseShortExpenseJson>();
         }
     }
 }
