@@ -15,6 +15,17 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
 
         }
 
+        public async Task<bool> Delete(long id)
+        {
+          var result =  await dbContext.Expenses.FirstOrDefaultAsync(e => e.Id.Equals(id));
+
+            if(result is null)
+                return false;
+
+            dbContext.Expenses.Remove(result);
+            return true;
+        }
+
         public async Task<List<Expense>> GetAll()
         {
             return await dbContext.Expenses.AsNoTracking().OrderBy(e => e.Title).ToListAsync();

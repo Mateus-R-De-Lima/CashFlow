@@ -1,4 +1,5 @@
 ﻿using CashFlow.Application.AutoMapper;
+using CashFlow.Application.UseCases.Expenses.Delete;
 using CashFlow.Application.UseCases.Expenses.GetAll;
 using CashFlow.Application.UseCases.Expenses.GetById;
 using CashFlow.Application.UseCases.Expenses.Register;
@@ -30,6 +31,8 @@ namespace CashFlow.Application
             services.AddScoped<IGetAllExpenseUseCase, GetAllExpenseUseCase>();
 
             services.AddScoped<IGetByIdExpenseUseCase, GetByIdExpenseUseCase>();
+
+            services.AddScoped<IDeleteExpenseUseCase, DeleteExpenseUseCase>();
 
         }
     }
