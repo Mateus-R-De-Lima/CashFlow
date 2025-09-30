@@ -7,7 +7,7 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
 {
     internal class ExpensesRepository(
         CashFlowDbContext dbContext
-        ) : IExpensesRepository
+        ) : IExpensesWriteOnlyRepository, IExpensesReadOnlyRepository
     {
         public async Task Add(Expense expense)
         {

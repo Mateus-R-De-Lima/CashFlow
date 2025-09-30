@@ -10,7 +10,7 @@ using CashFlow.Exception.ExceptionsBase;
 namespace CashFlow.Application.UseCases.Expenses.Register
 {
     public class RegisterExpenseUseCase(
-        IExpensesRepository repository,
+        IExpensesWriteOnlyRepository repository,
         IUnitOfWork unitOfWork,
         IMapper mapper
         ) : IRegisterExpenseUseCase

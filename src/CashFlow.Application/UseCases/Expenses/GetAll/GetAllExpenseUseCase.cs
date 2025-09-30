@@ -6,7 +6,7 @@ using CashFlow.Domain.Repositories.Expenses;
 namespace CashFlow.Application.UseCases.Expenses.GetAll
 {
     public class GetAllExpenseUseCase(
-          IExpensesRepository repository,
+          IExpensesReadOnlyRepository repository,
           IMapper mapper
         ) : IGetAllExpenseUseCase
     {
