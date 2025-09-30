@@ -1,33 +1,32 @@
 ﻿using AutoMapper;
 using CashFlow.Communication.Requests;
-using CashFlow.Communication.Responses;
 using CashFlow.Domain.Entities;
-using CashFlow.Domain.Enums;
 using CashFlow.Domain.Repositories;
 using CashFlow.Domain.Repositories.Expenses;
+using CashFlow.Exception;
 using CashFlow.Exception.ExceptionsBase;
 
-namespace CashFlow.Application.UseCases.Expenses.Register
+namespace CashFlow.Application.UseCases.Expenses.Update
 {
-    public class RegisterExpenseUseCase(
-        IExpensesWriteOnlyRepository repository,
-        IUnitOfWork unitOfWork,
-        IMapper mapper
-        ) : IRegisterExpenseUseCase
+    public class UpdateExpenseUseCase(IMapper mapper,
+                                      IExpenseUpdateOnlyRepository repository,
+                                      IUnitOfWork unitOfWork) : IUpdateExpenseUseCase
     {
-        public async Task<ResponseExpenseJson> Execute(RequestExpenseJson request)
+
+        public async Task Execute(long id, RequestExpenseJson request)
         {
             Validate(request);
 
-            var entity = mapper.Map<Expense>(request);
+            var expense = await repository.GetById(id);
 
-            await repository.Add(entity);
+            if (expense is null)
+                throw new NotFoundException(ResourceErrorMessages.EXPENSE_NOT_FOUND);
+
+            mapper.Map(request, expense);
+
+            repository.Update(expense);
 
             await unitOfWork.Commit();
-
-            var response = mapper.Map<ResponseExpenseJson>(entity);
-
-            return response;
         }
 
         private void Validate(RequestExpenseJson request)
@@ -41,7 +40,10 @@ namespace CashFlow.Application.UseCases.Expenses.Register
                 var errorMessages = result.Errors.Select(f => f.ErrorMessage).ToList();
 
                 throw new ErrorOnValidationException(errorMessages);
+
             }
         }
+
+
     }
 }

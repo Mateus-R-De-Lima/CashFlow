@@ -1,15 +1,7 @@
-﻿using AutoMapper;
-using CashFlow.Application.UseCases.Expenses.GetById;
-using CashFlow.Communication.Responses;
-using CashFlow.Domain.Repositories;
+﻿using CashFlow.Domain.Repositories;
 using CashFlow.Domain.Repositories.Expenses;
 using CashFlow.Exception;
 using CashFlow.Exception.ExceptionsBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CashFlow.Application.UseCases.Expenses.Delete
 {

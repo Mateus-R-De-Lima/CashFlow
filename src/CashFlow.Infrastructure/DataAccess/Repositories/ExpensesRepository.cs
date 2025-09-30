@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace CashFlow.Infrastructure.DataAccess.Repositories
 {
-    internal class ExpensesRepository(
-        CashFlowDbContext dbContext
-        ) : IExpensesWriteOnlyRepository, IExpensesReadOnlyRepository
+    internal class ExpensesRepository(CashFlowDbContext dbContext) : IExpensesWriteOnlyRepository, IExpensesReadOnlyRepository, IExpenseUpdateOnlyRepository
     {
         public async Task Add(Expense expense)
         {
@@ -17,9 +15,9 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
 
         public async Task<bool> Delete(long id)
         {
-          var result =  await dbContext.Expenses.FirstOrDefaultAsync(e => e.Id.Equals(id));
+            var result = await dbContext.Expenses.FirstOrDefaultAsync(e => e.Id.Equals(id));
 
-            if(result is null)
+            if (result is null)
                 return false;
 
             dbContext.Expenses.Remove(result);
@@ -31,10 +29,18 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
             return await dbContext.Expenses.AsNoTracking().OrderBy(e => e.Title).ToListAsync();
         }
 
-        public async Task<Expense?> GetById(long id)
+        async Task<Expense?> IExpensesReadOnlyRepository.GetById(long id)
         {
             return await dbContext.Expenses.AsNoTracking()
                                            .FirstOrDefaultAsync(e => e.Id == id);
+        }
+        async Task<Expense?> IExpenseUpdateOnlyRepository.GetById(long id)
+        {
+            return await dbContext.Expenses.FirstOrDefaultAsync(e => e.Id == id);
+        }
+        public void Update(Expense expense)
+        {
+            dbContext.Expenses.Update(expense);
         }
     }
 }
