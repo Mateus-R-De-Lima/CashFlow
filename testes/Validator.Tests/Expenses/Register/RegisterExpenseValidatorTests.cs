@@ -1,21 +1,18 @@
-﻿using CashFlow.Application.UseCases.Expenses.Register;
+﻿using CashFlow.Application.UseCases.Expenses;
 using CashFlow.Communication.Enums;
-using CashFlow.Communication.Requests;
 using CashFlow.Exception;
 using CommonTestUtilities.Request;
-using Xunit.Sdk;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Validator.Tests.Expenses.Register
 {
-    public class RegisterExpenseValidatorTests
+    public class ExpenseValidatorTests
     {
         [Fact]
         public void Sucesso()
         {
 
             // Arrange
-            var validator = new RegisterExpenseValidator();
+            var validator = new ExpenseValidator();
             var request = RequestRegisterExpenseJsonBuilder.Build();
 
             //Act
@@ -34,7 +31,7 @@ namespace Validator.Tests.Expenses.Register
         {
 
             // Arrange
-            var validator = new RegisterExpenseValidator();
+            var validator = new ExpenseValidator();
             var request = RequestRegisterExpenseJsonBuilder.Build();
             request.Title = title;            
 
@@ -55,7 +52,7 @@ namespace Validator.Tests.Expenses.Register
         {
 
             // Arrange
-            var validator = new RegisterExpenseValidator();
+            var validator = new ExpenseValidator();
             var request = RequestRegisterExpenseJsonBuilder.Build();
             request.Date = DateTime.UtcNow.AddDays(1);
 
@@ -73,7 +70,7 @@ namespace Validator.Tests.Expenses.Register
         {
 
             // Arrange
-            var validator = new RegisterExpenseValidator();
+            var validator = new ExpenseValidator();
             var request = RequestRegisterExpenseJsonBuilder.Build();
             request.PaymentType = (PaymentTypes)700;
             //Act
@@ -94,7 +91,7 @@ namespace Validator.Tests.Expenses.Register
         {
 
             // Arrange
-            var validator = new RegisterExpenseValidator();
+            var validator = new ExpenseValidator();
             var request = RequestRegisterExpenseJsonBuilder.Build();
             request.Amount = amount;
             //Act

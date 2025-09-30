@@ -15,7 +15,7 @@ namespace CashFlow.Application.AutoMapper
 
         private void AutoMappingRequest()
         {
-            CreateMap<RequestRegisterExpenseJson, Expense>();
+            CreateMap<RequestExpenseJson, Expense>();
         }
 
         private void AutoMappingResponse()
