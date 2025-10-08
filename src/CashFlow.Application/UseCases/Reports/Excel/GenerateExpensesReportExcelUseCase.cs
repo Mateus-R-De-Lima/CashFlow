@@ -8,13 +8,16 @@ namespace CashFlow.Application.UseCases.Reports.Excel
         IExpensesReadOnlyRepository repository
         ) : IGenerateExpensesReportExcelUseCase
     {
+
+        private const string CURRENCY_SYMBOL = "R$";
+
         public async Task<byte[]> Execute(DateOnly month)
         {
             var expenses = await repository.FilterByMonth(month);
             if (expenses.Count == 0)
                 return [];
 
-            var workbook = new XLWorkbook();
+            using var workbook = new XLWorkbook();
 
             // Configuração 
             workbook.Author = "Mateus Lima";
@@ -32,6 +35,8 @@ namespace CashFlow.Application.UseCases.Reports.Excel
                 worksheet.Cell($"B{raw}").Value = expense.Date;
                 worksheet.Cell($"C{raw}").Value = ConvertPaymentType(expense.PaymentType);
                 worksheet.Cell($"D{raw}").Value = expense.Amount;
+                worksheet.Cell($"D{raw}").Style.NumberFormat.Format = $"-{CURRENCY_SYMBOL} #,##0.00";
+
                 worksheet.Cell($"E{raw}").Value = expense.Description;
                 raw++;
             }
@@ -53,7 +58,7 @@ namespace CashFlow.Application.UseCases.Reports.Excel
                 PaymentTypes.EletronicTransfer => ResourceReportGenerationMessages.ELETRONICTRANSFER,
                 _ => string.Empty
             };
-                
+
         }
 
         private void InsertHeader(IXLWorksheet worksheet)
