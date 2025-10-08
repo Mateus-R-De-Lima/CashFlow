@@ -1,11 +1,19 @@
-﻿using ClosedXML.Excel;
+﻿using CashFlow.Domain.Enums;
+using CashFlow.Domain.Repositories.Expenses;
+using ClosedXML.Excel;
 
 namespace CashFlow.Application.UseCases.Reports.Excel
 {
-    public class GenerateExpensesReportExcelUseCase : IGenerateExpensesReportExcelUseCase
+    public class GenerateExpensesReportExcelUseCase(
+        IExpensesReadOnlyRepository repository
+        ) : IGenerateExpensesReportExcelUseCase
     {
         public async Task<byte[]> Execute(DateOnly month)
         {
+            var expenses = await repository.FilterByMonth(month);
+            if (expenses.Count == 0)
+                return [];
+
             var workbook = new XLWorkbook();
 
             // Configuração 
@@ -17,6 +25,17 @@ namespace CashFlow.Application.UseCases.Reports.Excel
             var worksheet = workbook.Worksheets.Add(month.ToString("Y"));
             InsertHeader(worksheet);
 
+            var raw = 2;
+            foreach (var expense in expenses)
+            {
+                worksheet.Cell($"A{raw}").Value = expense.Title;
+                worksheet.Cell($"B{raw}").Value = expense.Date;
+                worksheet.Cell($"C{raw}").Value = ConvertPaymentType(expense.PaymentType);
+                worksheet.Cell($"D{raw}").Value = expense.Amount;
+                worksheet.Cell($"E{raw}").Value = expense.Description;
+                raw++;
+            }
+
             var file = new MemoryStream();
 
             workbook.SaveAs(file);
@@ -24,6 +43,18 @@ namespace CashFlow.Application.UseCases.Reports.Excel
             return file.ToArray();
         }
 
+        private string ConvertPaymentType(PaymentTypes payment)
+        {
+            return payment switch
+            {
+                PaymentTypes.Cash => ResourceReportGenerationMessages.CASH,
+                PaymentTypes.CreditCard => ResourceReportGenerationMessages.CREDITCARD,
+                PaymentTypes.DebitCard => ResourceReportGenerationMessages.DEBITCARD,
+                PaymentTypes.EletronicTransfer => ResourceReportGenerationMessages.ELETRONICTRANSFER,
+                _ => string.Empty
+            };
+                
+        }
 
         private void InsertHeader(IXLWorksheet worksheet)
         {

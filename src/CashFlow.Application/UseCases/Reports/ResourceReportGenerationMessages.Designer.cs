@@ -70,6 +70,24 @@ namespace CashFlow.Application.UseCases.Reports {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Cash.
+        /// </summary>
+        public static string CASH {
+            get {
+                return ResourceManager.GetString("CASH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Credit Card.
+        /// </summary>
+        public static string CREDITCARD {
+            get {
+                return ResourceManager.GetString("CREDITCARD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Date.
         /// </summary>
         public static string DATE {
@@ -79,11 +97,29 @@ namespace CashFlow.Application.UseCases.Reports {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Debit Card.
+        /// </summary>
+        public static string DEBITCARD {
+            get {
+                return ResourceManager.GetString("DEBITCARD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Description.
         /// </summary>
         public static string DESCRIPTION {
             get {
                 return ResourceManager.GetString("DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Eletronic Transfer.
+        /// </summary>
+        public static string ELETRONICTRANSFER {
+            get {
+                return ResourceManager.GetString("ELETRONICTRANSFER", resourceCulture);
             }
         }
         
