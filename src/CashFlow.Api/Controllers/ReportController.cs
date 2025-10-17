@@ -1,4 +1,5 @@
 ﻿using CashFlow.Application.UseCases.Reports.Excel;
+using CashFlow.Application.UseCases.Reports.PDF;
 using CashFlow.Communication.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,20 @@ namespace CashFlow.Api.Controllers
             return NoContent();
         }
 
+
+        [HttpGet("pdf")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> GetPDF([FromServices] IGenerateExpensesReportPDFUseCase expensesReportPDFUseCase,
+                                                [FromQuery] DateOnly month)
+        {
+            byte[] file = await expensesReportPDFUseCase.Execute(month);
+
+            if (file.Length > 0)
+                return File(file, MediaTypeNames.Application.Pdf, "report.pdf");
+
+            return NoContent();
+        }
 
     }
 }
