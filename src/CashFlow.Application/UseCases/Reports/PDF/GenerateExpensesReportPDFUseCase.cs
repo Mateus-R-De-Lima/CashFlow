@@ -38,10 +38,24 @@ namespace CashFlow.Application.UseCases.Reports.PDF
             var style = document.Styles["Normal"];
             style!.Font.Name = FontHelper.RALEWAY_REGULAR;
 
-
-
             return document;
+        }
 
+
+        private Section CreateSection(Document document)
+        {
+            var section =  document.AddSection();
+            // Clone da Paginal Padrão 
+            section.PageSetup = document.DefaultPageSetup.Clone();
+
+            // Margin de Layout 
+            section.PageSetup.BottomMargin = 80;
+            section.PageSetup.TopMargin = 80;
+            section.PageSetup.LeftMargin = 40;
+            section.PageSetup.RightMargin = 40;
+
+
+            return section;
         }
     }
 }
