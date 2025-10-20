@@ -24,6 +24,19 @@ namespace CashFlow.Application.UseCases.Reports.PDF
 
             var document = CreateDocument(month);
 
+            var page = CreatePage(document);
+
+            var paragraph = page.AddParagraph();
+
+            var title = string.Format(ResourceReportGenerationMessages.TOTAL_SPENT_IN, month.ToString("Y"));
+            paragraph.AddFormattedText(title, new Font { Size = 15,Name =FontHelper.RALEWAY_REGULAR});
+
+            paragraph.AddLineBreak(); // Quebra de Linha
+
+            var totalExpenses = expenses.Sum(expenses => expenses.Amount);
+
+            paragraph.AddFormattedText($"{totalExpenses} {CURRENCY_SYMBOL}", new Font { Size = 50, Name = FontHelper.WORKSANS_BLACK });
+
             return [];
 
         }
@@ -42,7 +55,7 @@ namespace CashFlow.Application.UseCases.Reports.PDF
         }
 
 
-        private Section CreateSection(Document document)
+        private Section CreatePage(Document document)
         {
             var section =  document.AddSection();
             // Clone da Paginal Padrão 
