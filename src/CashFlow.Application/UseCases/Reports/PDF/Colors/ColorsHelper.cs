@@ -1,7 +1,7 @@
 ﻿using MigraDoc.DocumentObjectModel;
 namespace CashFlow.Application.UseCases.Reports.PDF.Colors
 {
-    public class ColorsHelpe
+    public class ColorsHelper
     {
         public static readonly Color RED_DARK = Color.Parse("#DF340C");
         public static readonly Color RED_LIGHT = Color.Parse("#F5C2B6");
