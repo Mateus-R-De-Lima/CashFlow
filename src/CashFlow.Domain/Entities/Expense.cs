@@ -1,4 +1,5 @@
 ﻿using CashFlow.Domain.Enums;
+using System.Net.Sockets;
 
 namespace CashFlow.Domain.Entities
 {
@@ -15,6 +16,11 @@ namespace CashFlow.Domain.Entities
         public PaymentTypes PaymentType { get; set; }
 
         public decimal Amount { get; set; }
+
+        public long UserId { get; set; }
+
+        public User User { get; set; } = default!;
+
 
     }
 }
