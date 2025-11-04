@@ -18,7 +18,8 @@ namespace CashFlow.Application.AutoMapper
             CreateMap<RequestExpenseJson, Expense>();
 
             #region User
-            CreateMap<RequestUserJson, User>();
+            CreateMap<RequestUserJson, User>()
+                .ForMember(dest => dest.Password, config => config.Ignore());
             #endregion
 
         }

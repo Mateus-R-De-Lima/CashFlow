@@ -63,7 +63,7 @@ namespace CashFlow.Application.UseCases.User
         private static partial Regex LowerCaseLetter();
         [GeneratedRegex(@"[0-9]+")]
         private static partial Regex Numbers();
-        [GeneratedRegex(@"[\!\?\*\.]+")]
+        [GeneratedRegex(@"[\!\?\*\.\%\@]+")]
         private static partial Regex SpecialSymbols();
 
     }
