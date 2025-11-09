@@ -10,5 +10,12 @@ namespace CashFlow.Infrastructure.Security
             string passwordHash = BC.HashPassword(password);
             return passwordHash;
         }
+
+        public bool Verify(string password,string passwordHash)
+        {
+            var result = BC.Verify(password, passwordHash);
+         
+            return result;
+        }
     }
 }
