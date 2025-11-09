@@ -26,7 +26,7 @@ namespace Validator.Tests.User.Register
         [InlineData("")]
         [InlineData("       ")]
         [InlineData(null)]
-        public void Error_name_Invalid(string name)
+        public void Error_Name_Invalid(string name)
         {
             // Arrange
             var validator = new RegiserUserValidator();
@@ -41,6 +41,29 @@ namespace Validator.Tests.User.Register
             Assert.False(result.IsValid);
 
             Assert.Contains(result.Errors, e => e.ErrorMessage.Contains(ResourceErrorMessages.NAME_EMPTY));
+        }
+    
+
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("       ")]
+        [InlineData(null)]
+        public void Error_Email_Invalid(string email)
+        {
+            // Arrange
+            var validator = new RegiserUserValidator();
+            var request = RequestRegisterUserJsonBuilder.Build();
+            request.Email = email;
+
+            // Act
+            var result = validator.Validate(request);
+
+            //Assert
+
+            Assert.False(result.IsValid);
+
+            Assert.Contains(result.Errors, e => e.ErrorMessage.Contains(ResourceErrorMessages.EMAIL_EMPTY));
         }
     }
 }
