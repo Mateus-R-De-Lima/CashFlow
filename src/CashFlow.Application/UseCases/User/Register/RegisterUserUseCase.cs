@@ -25,7 +25,7 @@ namespace CashFlow.Application.UseCases.User.Register
 
             var user = mapper.Map<Domain.Entities.User>(request);
 
-            user.Password = passwordEncripter.Encrypt(user.Password);
+            user.Password = passwordEncripter.Encrypt(request.Password);
             user.UserIdentifier = Guid.NewGuid();
 
             await userWriteOnlyRepository.Add(user);
