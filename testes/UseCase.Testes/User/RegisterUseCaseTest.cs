@@ -69,9 +69,9 @@ namespace UseCase.Tests.User
 
             var writeOnly = UserWriteOnlyRepositoryBuilder.Build();
 
-            var passowrdEncripter = PasswordEncripterBuilder.Build();
+            var passowrdEncripter = new PasswordEncripterBuilder().Build();
 
-            var jwtTokenGenaratorBuilder = JwtTokenGenaratorBuilder.Buid();
+            var jwtTokenGenaratorBuilder = JwtTokenGenaratorBuilder.Build();
 
             return new RegisterUserUseCase(mapper,
                                            readOnly.Build(),

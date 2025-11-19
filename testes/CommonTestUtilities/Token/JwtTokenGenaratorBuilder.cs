@@ -7,7 +7,7 @@ namespace CommonTestUtilities.Token
 {
     public class JwtTokenGenaratorBuilder
     {
-        public static IAccessTokenGenarator Buid()
+        public static IAccessTokenGenarator Build()
         {
             var mock = new Mock<IAccessTokenGenarator>();
             mock.Setup(config => config.Generate(It.IsAny<User>())).Returns("Token");
