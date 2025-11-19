@@ -7,6 +7,7 @@ using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Request;
 using CommonTestUtilities.Token;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UseCase.Tests.User
 {
@@ -41,13 +42,30 @@ namespace UseCase.Tests.User
             Assert.Contains(ResourceErrorMessages.NAME_EMPTY, exception.GetErros());
 
         }
-        private RegisterUserUseCase CreateUseCase()
+
+        [Fact]
+        public async Task Error_EMAIL_ALREADY_REGISTERED()
+        {
+            // Arrange
+            var request = RequestRegisterUserJsonBuilder.Build();          
+            var useCase = CreateUseCase(request.Email);
+            // Act
+            var exception = await Assert.ThrowsAsync<ErrorOnValidationException>(() =>
+                             useCase.Execute(request));
+
+            Assert.Contains(ResourceErrorMessages.EMAIL_ALREADY_REGISTERED, exception.GetErros());
+
+        }
+        private RegisterUserUseCase CreateUseCase(string? email = null)
         {
             var mapper = MapperBuilder.Build();
 
             var unitOfWork = UnitOfWorkBuilder.Build();
 
-            var readOnly = new UserReadOnlyRepositoryBuilder().Build();
+            var readOnly = new UserReadOnlyRepositoryBuilder();
+
+            if(!string.IsNullOrWhiteSpace(email))
+                readOnly.ExistActiveUserWithEmail(email);
 
             var writeOnly = UserWriteOnlyRepositoryBuilder.Build();
 
@@ -56,7 +74,7 @@ namespace UseCase.Tests.User
             var jwtTokenGenaratorBuilder = JwtTokenGenaratorBuilder.Buid();
 
             return new RegisterUserUseCase(mapper,
-                                           readOnly,
+                                           readOnly.Build(),
                                            writeOnly,
                                            unitOfWork,
                                            passowrdEncripter,
