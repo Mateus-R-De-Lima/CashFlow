@@ -13,7 +13,7 @@ namespace WebApi.Test
             builder.UseEnvironment("Test")
                 .ConfigureServices(services =>
                 {
-                    var provider = services.AddEntityFrameworkInMemoryDatabase().BuildServiceProvider()
+                    var provider = services.AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
 
                     services.AddDbContext<CashFlowDbContext>( config =>
                     {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace WebApi.Test.Users.Register
 {
@@ -10,7 +11,7 @@ namespace WebApi.Test.Users.Register
         private const string METHOD = "api/User";
         private readonly HttpClient _httpClient;
 
-        public RegisterUserTest(WebApplicationFactory<Program> webApplicationFactory)
+        public RegisterUserTest(CustomWebApplicationFactory webApplicationFactory)
         {
             _httpClient = webApplicationFactory.CreateClient();
         }
@@ -23,7 +24,17 @@ namespace WebApi.Test.Users.Register
 
             var result = await _httpClient.PostAsJsonAsync(METHOD, request);
 
+            var body = await result.Content.ReadAsStreamAsync();
+
+            var response = await JsonDocument.ParseAsync(body);
+
+
             Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
+
+            Assert.NotEmpty(response.RootElement.GetProperty("token")
+                .GetString());
+
+            Assert.Equal(request.Name, response.RootElement.GetProperty("name").GetString());
 
         }
     }
