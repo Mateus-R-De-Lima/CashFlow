@@ -1,13 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using CommonTestUtilities.Request;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net.Http.Json;
 
 namespace WebApi.Test.Users.Register
 {
     public class RegisterUserTest : IClassFixture<WebApplicationFactory<Program>>
     {
+        private const string METHOD = "api/User";
+        private readonly HttpClient _httpClient;
+
+        public RegisterUserTest(WebApplicationFactory<Program> webApplicationFactory)
+        {
+            _httpClient = webApplicationFactory.CreateClient();
+        }
+
 
         [Fact]
         public async Task Success()
         {
+            var request = RequestRegisterUserJsonBuilder.Build();
+
+            var result = await _httpClient.PostAsJsonAsync(METHOD, request);
+
+            Assert.Equal(StatusCodes.Status201Created, (int)result.StatusCode);
 
         }
     }
