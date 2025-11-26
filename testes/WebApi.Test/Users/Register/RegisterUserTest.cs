@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace WebApi.Test.Users.Register
 {
-    public class RegisterUserTest : IClassFixture<WebApplicationFactory<Program>>
+    public class RegisterUserTest : IClassFixture<CustomWebApplicationFactory>
     {
         private const string METHOD = "api/User";
         private readonly HttpClient _httpClient;
