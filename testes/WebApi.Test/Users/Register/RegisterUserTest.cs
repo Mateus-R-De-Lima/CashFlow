@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Users.Register
 {
@@ -45,14 +46,14 @@ namespace WebApi.Test.Users.Register
 
 
 
-        [Fact]
-        public async Task Error_Empty_Name()
+        [Theory]
+        [ClassData(typeof(CultureInlineDataTest))]
+        public async Task Error_Empty_Name(string cultureInfo)
         {
             var request = RequestRegisterUserJsonBuilder.Build();
             request.Name = string.Empty;
-
-            var language = CultureInfo.CurrentCulture.Name;
-            _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
+           
+            _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(cultureInfo));
 
             var result = await _httpClient.PostAsJsonAsync(METHOD, request);
 
@@ -63,33 +64,13 @@ namespace WebApi.Test.Users.Register
            
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
             Assert.Single(errors);
-            Assert.Equal(ResourceErrorMessages.NAME_EMPTY, errors[0].GetString());
-
-        }
-
-
-        [Fact]
-        public async Task Error_Empty_Name_FR()
-        {
-            var request = RequestRegisterUserJsonBuilder.Build();
-            request.Name = string.Empty;
-            
-            _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue("fr"));
-
-            var result = await _httpClient.PostAsJsonAsync(METHOD, request);
-
-            var body = await result.Content.ReadAsStreamAsync();
-
-            var response = await JsonDocument.ParseAsync(body);
-            var errors = response.RootElement.GetProperty("errorMessages").EnumerateArray().ToList();
-
-            var expectedMessage = ResourceErrorMessages.ResourceManager.GetString("NAME_EMPTY", new CultureInfo("fr"));
-
-            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-            Assert.Single(errors);
+            var expectedMessage = ResourceErrorMessages.ResourceManager.GetString("NAME_EMPTY", new CultureInfo(cultureInfo));
             Assert.Equal(expectedMessage, errors[0].GetString());
 
         }
+
+
+    
 
 
     }
