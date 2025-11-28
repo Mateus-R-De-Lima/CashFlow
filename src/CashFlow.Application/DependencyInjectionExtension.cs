@@ -1,4 +1,5 @@
 ﻿using CashFlow.Application.AutoMapper;
+using CashFlow.Application.Services.LoggerUser;
 using CashFlow.Application.UseCases.DoLogin;
 using CashFlow.Application.UseCases.Expenses.Delete;
 using CashFlow.Application.UseCases.Expenses.GetAll;
@@ -45,6 +46,8 @@ namespace CashFlow.Application
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
 
             services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
+
+            services.AddScoped<ILoggerUser, LoggerUser>();
 
             services.AddScoped<IGenerateExpensesReportExcelUseCase, GenerateExpensesReportExcelUseCase>();
 
