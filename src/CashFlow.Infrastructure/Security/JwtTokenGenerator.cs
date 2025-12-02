@@ -18,6 +18,7 @@ namespace CashFlow.Infrastructure.Security
             {
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("UserIdentifier",user.UserIdentifier.ToString()),
+                new Claim(ClaimTypes.Sid,user.UserIdentifier.ToString()),
                 new Claim(ClaimTypes.Role, user.Role)
 
             };

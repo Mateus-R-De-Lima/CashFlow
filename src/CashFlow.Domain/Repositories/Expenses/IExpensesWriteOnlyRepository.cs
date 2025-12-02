@@ -6,7 +6,7 @@ namespace CashFlow.Domain.Repositories.Expenses
     {
         Task Add(Expense expense);           
 
-        Task<bool> Delete(long id);
+        Task Delete(long id);
 
         
     }

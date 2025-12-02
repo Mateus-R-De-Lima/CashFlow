@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CashFlow.Application.Services.LoggerUser;
 using CashFlow.Communication.Requests;
 using CashFlow.Domain.Entities;
 using CashFlow.Domain.Repositories;
@@ -10,6 +11,7 @@ namespace CashFlow.Application.UseCases.Expenses.Update
 {
     public class UpdateExpenseUseCase(IMapper mapper,
                                       IExpenseUpdateOnlyRepository repository,
+                                      ILoggerUser loggerUser,
                                       IUnitOfWork unitOfWork) : IUpdateExpenseUseCase
     {
 
@@ -17,7 +19,8 @@ namespace CashFlow.Application.UseCases.Expenses.Update
         {
             Validate(request);
 
-            var expense = await repository.GetById(id);
+            var user = await loggerUser.Get();
+            var expense = await repository.GetById(user, id);        
 
             if (expense is null)
                 throw new NotFoundException(ResourceErrorMessages.EXPENSE_NOT_FOUND);

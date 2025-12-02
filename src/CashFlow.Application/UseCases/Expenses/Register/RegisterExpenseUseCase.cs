@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CashFlow.Application.Services.LoggerUser;
 using CashFlow.Communication.Requests;
 using CashFlow.Communication.Responses;
 using CashFlow.Domain.Entities;
@@ -6,20 +7,25 @@ using CashFlow.Domain.Enums;
 using CashFlow.Domain.Repositories;
 using CashFlow.Domain.Repositories.Expenses;
 using CashFlow.Exception.ExceptionsBase;
+using System.Threading.Tasks;
 
 namespace CashFlow.Application.UseCases.Expenses.Register
 {
     public class RegisterExpenseUseCase(
         IExpensesWriteOnlyRepository repository,
         IUnitOfWork unitOfWork,
-        IMapper mapper
+        IMapper mapper,
+        ILoggerUser loggerUser
         ) : IRegisterExpenseUseCase
     {
         public async Task<ResponseExpenseJson> Execute(RequestExpenseJson request)
         {
-            Validate(request);
+            await Validate(request);
+
+            var user = await loggerUser.Get();
 
             var entity = mapper.Map<Expense>(request);
+            entity.UserId = user.Id;
 
             await repository.Add(entity);
 
@@ -30,7 +36,7 @@ namespace CashFlow.Application.UseCases.Expenses.Register
             return response;
         }
 
-        private void Validate(RequestExpenseJson request)
+        private async Task Validate(RequestExpenseJson request)
         {
             var validator = new ExpenseValidator();
 
@@ -42,6 +48,8 @@ namespace CashFlow.Application.UseCases.Expenses.Register
 
                 throw new ErrorOnValidationException(errorMessages);
             }
+
+
         }
     }
 }
