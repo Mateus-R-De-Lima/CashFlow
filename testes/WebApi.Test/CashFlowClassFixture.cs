@@ -15,7 +15,15 @@ namespace WebApi.Test
             _httpClient = customWebApplicationFactory.CreateClient();
         }
 
+        protected async Task<HttpResponseMessage> DoGet(string requestUri,
+                                    string token,
+                                    string cultureInfo = "en")
+        {
+            AuthorizationRequest(token);
+            ChangeRequestCulture(cultureInfo);
 
+            return await _httpClient.GetAsync(requestUri);
+        }
         protected async Task<HttpResponseMessage> DoPost(string requestUri,
                                     object request,
                                     string token = "",
