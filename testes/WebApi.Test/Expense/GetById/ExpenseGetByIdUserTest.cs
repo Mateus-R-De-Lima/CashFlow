@@ -2,7 +2,10 @@
 using CashFlow.Communication.Enums;
 using CashFlow.Exception;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
+using System.Net;
 using System.Text.Json;
+using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Expense.GetById
 {
@@ -47,6 +50,27 @@ namespace WebApi.Test.Expense.GetById
             // --- AMOUNT ---
             Assert.True(root.TryGetProperty("amount", out var amountProp));
             Assert.True(amountProp.GetDecimal() >= 0);
+
+        }
+
+        [Theory]
+        [ClassData(typeof(CultureInlineDataTest))]
+        public async Task Error_Expense_Not_Found(string culture)
+        {
+            var result = await DoGet(requestUri: $"{METHOD}/1000", token: _token, culture);
+
+            var body = await result.Content.ReadAsStreamAsync();
+
+            var response = await JsonDocument.ParseAsync(body);
+
+            var errors = response.RootElement.GetProperty("errorMessages").EnumerateArray().ToList();
+
+            Assert.NotNull(result);
+            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+            Assert.Single(errors);
+            
+            var expectedMessage = ResourceErrorMessages.ResourceManager.GetString("EXPENSE_NOT_FOUND", new CultureInfo(culture));
+            Assert.Equal(expectedMessage, errors[0].GetString());
 
         }
     }
