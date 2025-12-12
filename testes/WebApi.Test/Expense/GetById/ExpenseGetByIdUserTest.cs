@@ -13,8 +13,8 @@ namespace WebApi.Test.Expense.GetById
         private readonly long _expenseId;
         public ExpenseGetByIdUserTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
         {
-            _token = customWebApplicationFactory.GetToken();
-            _expenseId = customWebApplicationFactory.GetExpenseId();
+            _token = customWebApplicationFactory.User_Team_Member.GetToken();
+            _expenseId = customWebApplicationFactory.Expense.GetExpenseId();
         }
 
 

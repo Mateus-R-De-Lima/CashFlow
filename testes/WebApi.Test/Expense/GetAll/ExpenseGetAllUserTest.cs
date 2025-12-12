@@ -9,7 +9,7 @@ namespace WebApi.Test.Expense.GetAll
         private readonly string _token;
         public ExpenseGetAllUserTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
         {
-            _token = customWebApplicationFactory.GetToken();
+            _token = customWebApplicationFactory.User_Team_Member.GetToken();
         }
 
 
