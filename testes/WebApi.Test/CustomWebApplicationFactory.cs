@@ -23,6 +23,10 @@ namespace WebApi.Test
         private string _token;
         public string GetToken() => _token;
 
+        private CashFlow.Domain.Entities.Expense _expense;
+        public long GetExpenseId() => _expense.Id;
+
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Test")
@@ -50,8 +54,6 @@ namespace WebApi.Test
 
         private void StartDatabase(CashFlowDbContext dbContext,IPasswordEncripter passwordEncripter)
         {
-    
-
             AddUsers(dbContext, passwordEncripter);
             AddExpenses(dbContext, _user);
 
@@ -70,9 +72,10 @@ namespace WebApi.Test
 
         private void AddExpenses(CashFlowDbContext dbContext, User user)
         {
-            var expense = ExpenseBuilder.Build(user);
-            dbContext.Expenses.Add(expense);
-
+            _expense = ExpenseBuilder.Build(user);
+            dbContext.Expenses.Add(_expense);
         }
+
+       
     }
 }

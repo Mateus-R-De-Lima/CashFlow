@@ -24,6 +24,8 @@ namespace WebApi.Test
 
             return await _httpClient.GetAsync(requestUri);
         }
+
+
         protected async Task<HttpResponseMessage> DoPost(string requestUri,
                                     object request,
                                     string token = "",

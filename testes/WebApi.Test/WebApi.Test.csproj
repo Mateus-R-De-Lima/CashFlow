@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CashFlow.Api\CashFlow.Api.csproj" />
+    <ProjectReference Include="..\..\src\CashFlow.Domain\CashFlow.Domain.csproj" />
     <ProjectReference Include="..\..\src\CashFlow.Infrastructure\CashFlow.Infrastructure.csproj" />
     <ProjectReference Include="..\CommonTestUtilities\CommonTestUtilities.csproj" />
   </ItemGroup>
