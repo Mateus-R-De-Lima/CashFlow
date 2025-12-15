@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CashFlow.Communication.Requests;
+using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -34,7 +35,16 @@ namespace WebApi.Test
 
             return await _httpClient.DeleteAsync(requestUri);
         }
+        protected async Task<HttpResponseMessage> DoPut(string requestUri,
+                                                        RequestExpenseJson request,
+                                                        string token,
+                                                        string cultureInfo = "en")
+        {
+            AuthorizationRequest(token);
+            ChangeRequestCulture(cultureInfo);
 
+            return await _httpClient.PutAsJsonAsync(requestUri,request);
+        }
 
 
         protected async Task<HttpResponseMessage> DoPost(string requestUri,

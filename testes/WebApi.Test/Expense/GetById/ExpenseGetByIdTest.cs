@@ -9,12 +9,12 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Expense.GetById
 {
-    public class ExpenseGetByIdUserTest : CashFlowClassFixture
+    public class ExpenseGetByIdTest : CashFlowClassFixture
     {
         private const string METHOD = "api/Expenses";
         private readonly string _token;
         private readonly long _expenseId;
-        public ExpenseGetByIdUserTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
+        public ExpenseGetByIdTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
         {
             _token = customWebApplicationFactory.User_Team_Member.GetToken();
             _expenseId = customWebApplicationFactory.Expense.GetExpenseId();

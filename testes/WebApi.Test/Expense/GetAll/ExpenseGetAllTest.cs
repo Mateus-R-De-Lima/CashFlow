@@ -3,11 +3,11 @@ using System.Text.Json;
 
 namespace WebApi.Test.Expense.GetAll
 {
-    public class ExpenseGetAllUserTest : CashFlowClassFixture
+    public class ExpenseGetAllTest : CashFlowClassFixture
     {
         private const string METHOD = "api/Expenses";
         private readonly string _token;
-        public ExpenseGetAllUserTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
+        public ExpenseGetAllTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
         {
             _token = customWebApplicationFactory.User_Team_Member.GetToken();
         }

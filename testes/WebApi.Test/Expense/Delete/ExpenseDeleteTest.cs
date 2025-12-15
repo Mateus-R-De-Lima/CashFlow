@@ -7,12 +7,12 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Expense.Delete
 {
-    public class ExpenseDeleteUserTest : CashFlowClassFixture
+    public class ExpenseDeleteTest : CashFlowClassFixture
     {
         private const string METHOD = "api/Expenses";
         private readonly string _token;
         private readonly long _expenseId;
-        public ExpenseDeleteUserTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
+        public ExpenseDeleteTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
         {
             _token = customWebApplicationFactory.User_Team_Member.GetToken();
             _expenseId = customWebApplicationFactory.Expense.GetExpenseId();

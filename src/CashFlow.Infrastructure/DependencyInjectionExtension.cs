@@ -10,7 +10,6 @@ using CashFlow.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace CashFlow.Infrastructure
 {
@@ -44,7 +43,6 @@ namespace CashFlow.Infrastructure
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
 
             services.AddScoped<IPasswordEncripter, Security.BCrypt>();
-
 
             #endregion
 
