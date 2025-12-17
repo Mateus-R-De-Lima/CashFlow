@@ -17,7 +17,7 @@ namespace CashFlow.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetExcel([FromServices] IGenerateExpensesReportExcelUseCase generateExpensesReportExcelUseCase,
-                                                  [FromHeader] DateOnly month)
+                                                  [FromQuery] DateOnly month)
         {
             byte[] file = await generateExpensesReportExcelUseCase.Execute(month);
 

@@ -15,7 +15,7 @@ namespace WebApi.Test.Expense.Delete
         public ExpenseDeleteTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
         {
             _token = customWebApplicationFactory.User_Team_Member.GetToken();
-            _expenseId = customWebApplicationFactory.Expense.GetExpenseId();
+            _expenseId = customWebApplicationFactory.Expense_Team_Member.GetExpenseId();
         }
 
 

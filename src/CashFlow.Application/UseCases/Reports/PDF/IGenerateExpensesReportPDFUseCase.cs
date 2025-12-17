@@ -1,5 +1,4 @@
-﻿
-namespace CashFlow.Application.UseCases.Reports.PDF
+﻿namespace CashFlow.Application.UseCases.Reports.PDF
 {
     public interface IGenerateExpensesReportPDFUseCase
     {

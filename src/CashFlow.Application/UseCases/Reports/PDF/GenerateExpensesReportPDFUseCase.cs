@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.UseCases.Reports.PDF.Colors;
+﻿using CashFlow.Application.Services.LoggerUser;
+using CashFlow.Application.UseCases.Reports.PDF.Colors;
 using CashFlow.Application.UseCases.Reports.PDF.Fonts;
 using CashFlow.Domain.Repositories.Expenses;
 using MigraDoc.DocumentObjectModel;
@@ -12,11 +13,12 @@ namespace CashFlow.Application.UseCases.Reports.PDF
     public class GenerateExpensesReportPDFUseCase : IGenerateExpensesReportPDFUseCase
     {
         private readonly IExpensesReadOnlyRepository _repository;
-
+        private readonly ILoggerUser _loggerUser;
         private const int HEIGHT_ROW_EXPENSE_TABLE = 25;
-        public GenerateExpensesReportPDFUseCase(IExpensesReadOnlyRepository repository)
+        public GenerateExpensesReportPDFUseCase(IExpensesReadOnlyRepository repository, ILoggerUser loggerUser)
         {
             _repository = repository;
+            _loggerUser = loggerUser;
             GlobalFontSettings.FontResolver = new ExpensesReportFontResolver();
         }
 
@@ -24,7 +26,8 @@ namespace CashFlow.Application.UseCases.Reports.PDF
 
         public async Task<byte[]> Execute(DateOnly month)
         {
-            var expenses = await _repository.FilterByMonth(month);
+            var user = await _loggerUser.Get();
+            var expenses = await _repository.FilterByMonth(user,month);
             if (expenses.Count == 0)
                 return [];
 
