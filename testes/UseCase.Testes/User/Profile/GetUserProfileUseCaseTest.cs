@@ -1,4 +1,4 @@
-﻿using CashFlow.Application.UseCases.User.Profile;
+﻿using CashFlow.Application.UseCases.User.GetProfile;
 using CommonTestUtilities.Entities;
 using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Mapper;

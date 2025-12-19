@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashFlow.Infrastructure.DataAccess.Repositories
 {
-    internal class UserRepository(CashFlowDbContext dbContext) : IUserReadOnlyRepository, IUserWriteOnlyRepository
+    internal class UserRepository(CashFlowDbContext dbContext) : IUserReadOnlyRepository, IUserWriteOnlyRepository, IUserUpdateOnlyRepository
     {
         public async Task Add(User user)
         {
@@ -15,6 +15,7 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
         {
             return await dbContext.Users.AnyAsync(user => user.Email.Equals(email));
         }
+
 
         public async Task<User?> GetUserByEmail(string email)
         {
@@ -27,6 +28,17 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
                  .Users
                  .AsNoTracking()
                  .FirstAsync(user => user.UserIdentifier.Equals(identifier));
+        }
+
+        public void UpdateProfile(User user)
+        {
+            dbContext.Users.Update(user);
+        }
+
+
+        public async Task<User> GetById(long id)
+        {
+            return await dbContext.Users.FirstAsync(user => user.Id == id);
         }
     }
 }

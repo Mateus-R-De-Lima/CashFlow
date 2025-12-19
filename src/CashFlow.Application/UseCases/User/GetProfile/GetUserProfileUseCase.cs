@@ -2,7 +2,7 @@
 using CashFlow.Application.Services.LoggerUser;
 using CashFlow.Communication.Responses;
 
-namespace CashFlow.Application.UseCases.User.Profile
+namespace CashFlow.Application.UseCases.User.GetProfile
 {
     public class GetUserProfileUseCase(ILoggerUser loggerUser, IMapper mapper) : IGetUserProfileUseCase
     {
