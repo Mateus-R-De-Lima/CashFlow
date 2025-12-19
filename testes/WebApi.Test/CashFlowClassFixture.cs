@@ -36,7 +36,7 @@ namespace WebApi.Test
             return await _httpClient.DeleteAsync(requestUri);
         }
         protected async Task<HttpResponseMessage> DoPut(string requestUri,
-                                                        RequestExpenseJson request,
+                                                        object request,
                                                         string token,
                                                         string cultureInfo = "en")
         {

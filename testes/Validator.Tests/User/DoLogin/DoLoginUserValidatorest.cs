@@ -1,6 +1,6 @@
 ﻿namespace Validator.Tests.User.DoLogin
 {
-    public class DoLoginUseCaseTest
+    public class DoLoginUserValidatorest
     {
     }
 }

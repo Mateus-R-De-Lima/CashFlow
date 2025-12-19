@@ -37,13 +37,7 @@ namespace CashFlow.Application.UseCases.User.UpdateProfile
         {
             var validator = new UpdateUserValidator();
 
-            var result = validator.Validate(request);
-
-            if (!result.IsValid)
-            {
-                var errorMessagens = result.Errors.Select(f => f.ErrorMessage).ToList();
-                throw new ErrorOnValidationException(errorMessagens);
-            }
+            var result = validator.Validate(request);         
 
             if (!email.Equals(request.Email))
             {
@@ -51,6 +45,12 @@ namespace CashFlow.Application.UseCases.User.UpdateProfile
                 if (userExist)
                     result.Errors.Add(new ValidationFailure("Email", ResourceErrorMessages.EMAIL_ALREADY_REGISTERED));
 
+            }
+
+            if (!result.IsValid)
+            {
+                var errorMessagens = result.Errors.Select(f => f.ErrorMessage).ToList();
+                throw new ErrorOnValidationException(errorMessagens);
             }
 
 
