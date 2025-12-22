@@ -8,6 +8,7 @@ using CashFlow.Application.UseCases.Expenses.Register;
 using CashFlow.Application.UseCases.Expenses.Update;
 using CashFlow.Application.UseCases.Reports.Excel;
 using CashFlow.Application.UseCases.Reports.PDF;
+using CashFlow.Application.UseCases.User.ChangePassword;
 using CashFlow.Application.UseCases.User.GetProfile;
 using CashFlow.Application.UseCases.User.Register;
 using CashFlow.Application.UseCases.User.UpdateProfile;
@@ -43,6 +44,8 @@ namespace CashFlow.Application
             services.AddScoped<IDeleteExpenseUseCase, DeleteExpenseUseCase>();
 
             services.AddScoped<IUpdateExpenseUseCase, UpdateExpenseUseCase>();
+
+            services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
 
 
             services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();

@@ -27,7 +27,7 @@ namespace CashFlow.Application.UseCases.User.UpdateProfile
             userEntity!.Name = request.Name;
             userEntity.Email = request.Email;
 
-            userUpdateOnlyRepository.UpdateProfile(userEntity);
+            userUpdateOnlyRepository.Update(userEntity);
 
             await unitOfWork.Commit();
 

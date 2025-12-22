@@ -30,7 +30,7 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
                  .FirstAsync(user => user.UserIdentifier.Equals(identifier));
         }
 
-        public void UpdateProfile(User user)
+        public void Update(User user)
         {
             dbContext.Users.Update(user);
         }
