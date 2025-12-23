@@ -40,5 +40,11 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
         {
             return await dbContext.Users.FirstAsync(user => user.Id == id);
         }
+
+        public async Task Delete(User user)
+        {
+            var userToRemove = await dbContext.Users.FindAsync(user.Id);
+            dbContext.Remove(userToRemove!);
+        }
     }
 }
