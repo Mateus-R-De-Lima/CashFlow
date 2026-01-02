@@ -42,6 +42,8 @@ namespace CashFlow.Infrastructure
 
             services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
 
+            services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
+
             services.AddScoped<IPasswordEncripter, Security.BCrypt>();
 
             #endregion
