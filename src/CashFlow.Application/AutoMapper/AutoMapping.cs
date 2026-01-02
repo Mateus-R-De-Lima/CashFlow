@@ -31,7 +31,8 @@ namespace CashFlow.Application.AutoMapper
 
         private void AutoMappingResponse()
         {
-            CreateMap<Expense, ResponseExpenseJson>();
+            CreateMap<Expense, ResponseExpenseJson>()
+                .ForMember(dest => dest.Tags,config => config.MapFrom(origem => origem.Tags.Select(tag => tag.Value)));
 
             CreateMap<Expense, ResponseShortExpenseJson>();
 

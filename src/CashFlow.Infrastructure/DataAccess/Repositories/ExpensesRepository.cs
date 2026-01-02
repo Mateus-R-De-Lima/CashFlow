@@ -1,7 +1,7 @@
 ﻿using CashFlow.Domain.Entities;
 using CashFlow.Domain.Repositories.Expenses;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace CashFlow.Infrastructure.DataAccess.Repositories
 {
@@ -28,19 +28,20 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
 
         async Task<Expense?> IExpensesReadOnlyRepository.GetById(User user, long id)
         {
-            return await dbContext.Expenses.AsNoTracking()
-                                           .FirstOrDefaultAsync(e => e.Id == id && e.UserId.Equals(user.Id));
+            return await GetFullExpense()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Id == id && e.UserId.Equals(user.Id));
         }
         async Task<Expense?> IExpenseUpdateOnlyRepository.GetById(User user, long id)
         {
-            return await dbContext.Expenses.FirstOrDefaultAsync(e => e.Id == id && e.UserId.Equals(user.Id));
+            return await GetFullExpense().FirstOrDefaultAsync(e => e.Id == id && e.UserId.Equals(user.Id));
         }
         public void Update(Expense expense)
         {
             dbContext.Expenses.Update(expense);
         }
 
-        public async Task<List<Expense>> FilterByMonth(User user,DateOnly date)
+        public async Task<List<Expense>> FilterByMonth(User user, DateOnly date)
         {
             var startDate = new DateTime(year: date.Year, month: date.Month, day: 1).Date;
             var daysInMonth = DateTime.DaysInMonth(year: date.Year, month: date.Month);
@@ -54,6 +55,13 @@ namespace CashFlow.Infrastructure.DataAccess.Repositories
                 .ThenBy(expense => expense.Title)
                 .ToListAsync();
 
+        }
+
+
+        private IIncludableQueryable<Expense, ICollection<Tag>> GetFullExpense()
+        {
+            return dbContext.Expenses
+                .Include(expense => expense.Tags);
         }
     }
 }
