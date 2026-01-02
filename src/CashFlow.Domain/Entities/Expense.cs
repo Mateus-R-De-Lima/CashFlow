@@ -15,6 +15,8 @@ namespace CashFlow.Domain.Entities
 
         public PaymentTypes PaymentType { get; set; }
 
+        public ICollection<Tag> Tags { get; set; } = [];
+
         public decimal Amount { get; set; }
 
         public long UserId { get; set; }
