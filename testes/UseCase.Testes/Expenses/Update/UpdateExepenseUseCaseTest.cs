@@ -43,7 +43,7 @@ namespace UseCase.Tests.Expenses.Update
             var loggedUser = UserBuilder.Build();
             var request = RequestRegisterExpenseJsonBuilder.Build();
             var expense = ExpenseBuilder.Build(loggedUser);
-            var useCase = CreateUseCase(loggedUser, expense);
+            var useCase = CreateUseCase(loggedUser);
 
             // Act
             var exception = await Assert.ThrowsAsync<NotFoundException>(() =>

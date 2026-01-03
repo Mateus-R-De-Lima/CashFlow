@@ -103,6 +103,21 @@ namespace Validator.Tests.Expenses.Register
 
         }
 
+        [Fact]
+        public void Error_Tag_Invalid()
+        {
+            var validator = new ExpenseValidator();
+            var request = RequestRegisterExpenseJsonBuilder.Build();
+            request.Tags.Add((Tag)999);
+
+            //Act
+            var result = validator.Validate(request);
+
+            //Assert
+            Assert.False(result.IsValid); // garante que a validação falhou
+            Assert.Contains(result.Errors, e => e.ErrorMessage.Contains(ResourceErrorMessages.TAG_TYPE_NOT_SUPPORTED)); // garante que a mensagem contem algo esperado
+        }
+
 
     }
 }

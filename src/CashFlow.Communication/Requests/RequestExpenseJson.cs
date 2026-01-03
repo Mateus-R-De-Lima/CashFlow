@@ -12,6 +12,8 @@ namespace CashFlow.Communication.Requests
 
         public PaymentTypes  PaymentType { get; set; }
 
+        public IList<Tag> Tags { get; set; } = [];
+
         public decimal Amount { get; set; }
     }
 }

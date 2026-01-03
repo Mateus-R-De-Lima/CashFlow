@@ -27,8 +27,11 @@ namespace UseCase.Tests.Expenses.GetById
             // Validando campos essenciais
             Assert.False(string.IsNullOrWhiteSpace(result.Title));
             Assert.False(string.IsNullOrWhiteSpace(result.Description));
-
+            
             Assert.True(result.Amount >= 0);           
+
+            Assert.NotNull(result.Tags);
+           
 
             // Data válida
             Assert.True(result.Date != default);

@@ -52,13 +52,13 @@ namespace WebApi.Test
         {
             var user = AddUsersTeamMember(dbContext, passwordEncripter, accessTokenGenarator);
 
-            var expenseTeamMember =  AddExpenses(dbContext, user,1);
+            var expenseTeamMember =  AddExpenses(dbContext, user,1, 1);
 
             Expense_Team_Member = new ExpenseIdentityManager(expenseTeamMember);
 
             var userAdmin = AddUsersTeamAdmin(dbContext, passwordEncripter, accessTokenGenarator);
            
-            var expenseAdm = AddExpenses(dbContext, userAdmin,2);
+            var expenseAdm = AddExpenses(dbContext, userAdmin,2, 2);
 
             Expense_Admin = new ExpenseIdentityManager(expenseAdm);
 
@@ -98,10 +98,17 @@ namespace WebApi.Test
             return user;
         }
 
-        private CashFlow.Domain.Entities.Expense AddExpenses(CashFlowDbContext dbContext, User user,long expenseId)
+        private CashFlow.Domain.Entities.Expense AddExpenses(CashFlowDbContext dbContext, User user,long expenseId,long tagId)
         {
             var expense = ExpenseBuilder.Build(user);
             expense.Id = expenseId;
+
+            foreach (var tag in expense.Tags)
+            {
+                tag.Id = tagId;
+                tag.ExpenseId = expenseId; 
+            }
+
             dbContext.Expenses.Add(expense);
 
             return expense;

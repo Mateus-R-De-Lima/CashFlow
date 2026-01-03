@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CashFlow.Communication.Enums;
 using CashFlow.Communication.Requests;
 using CashFlow.Communication.Responses;
 using CashFlow.Domain.Entities;
@@ -15,7 +16,11 @@ namespace CashFlow.Application.AutoMapper
 
         private void AutoMappingRequest()
         {
-            CreateMap<RequestExpenseJson, Expense>();
+            CreateMap<RequestExpenseJson, Expense>()
+                .ForMember(dest => dest.Tags, config => config.MapFrom(origem => origem.Tags.Distinct()));
+
+            CreateMap<Communication.Enums.Tag, Domain.Entities.Tag>()
+                .ForMember(dest => dest.Value, config => config.MapFrom(origem => origem));
 
             #region User
             CreateMap<RequestUserJson, User>()
@@ -26,7 +31,8 @@ namespace CashFlow.Application.AutoMapper
 
         private void AutoMappingResponse()
         {
-            CreateMap<Expense, ResponseExpenseJson>();
+            CreateMap<Expense, ResponseExpenseJson>()
+                .ForMember(dest => dest.Tags,config => config.MapFrom(origem => origem.Tags.Select(tag => tag.Value)));
 
             CreateMap<Expense, ResponseShortExpenseJson>();
 
