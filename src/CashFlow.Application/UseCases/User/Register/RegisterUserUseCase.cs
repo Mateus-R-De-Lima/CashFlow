@@ -37,7 +37,7 @@ namespace CashFlow.Application.UseCases.User.Register
             return new ResponseRegisteredUserJson
             {
                 Name = user.Name,
-                Token = accessTokenGenarator.Generate(user)
+                Token = await accessTokenGenarator.Generate(user)
             };
         }
 

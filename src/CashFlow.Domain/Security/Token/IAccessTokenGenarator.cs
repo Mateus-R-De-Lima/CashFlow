@@ -4,6 +4,6 @@ namespace CashFlow.Domain.Security.Token
 {
     public interface IAccessTokenGenarator
     {
-        string Generate(User user);
+       Task<string> Generate(User user);
     }
 }

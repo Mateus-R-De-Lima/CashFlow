@@ -1,19 +1,29 @@
 ﻿using CashFlow.Domain.Entities;
 using CashFlow.Domain.Security.Token;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CashFlow.Infrastructure.Security
 {
     public class JwtTokenGenerator(
         uint expirationTimeMinutes,
-        string signingKey
+        string signingKey,
+        IConnectionMultiplexer redis
         ) : IAccessTokenGenarator
     {
-        public string Generate(User user)
+        public async Task<string> Generate(User user)
         {
+            var redisDb = redis.GetDatabase();
+
+            var userCache = redisDb.StringGet($"userId:{user.UserIdentifier.ToString()}");
+
+            if (userCache.HasValue)
+                return userCache;
+
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.Name),
@@ -35,7 +45,14 @@ namespace CashFlow.Infrastructure.Security
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(securityToken);
+            var token = tokenHandler.WriteToken(securityToken);
+
+            await redisDb.StringSetAsync(
+                user.UserIdentifier.ToString(),
+                token, 
+                TimeSpan.FromHours(2));   
+
+            return token;
         }
 
 

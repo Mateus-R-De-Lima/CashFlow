@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
+using StackExchange.Redis;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +53,12 @@ builder.Services.AddSwaggerGen(config =>
     });
 });
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+{
+    var connectionString = builder.Configuration.GetValue<string>("Redis:Connection");
+
+    return ConnectionMultiplexer.Connect(connectionString);
+});
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAplication();

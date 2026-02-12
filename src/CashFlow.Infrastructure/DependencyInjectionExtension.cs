@@ -10,20 +10,22 @@ using CashFlow.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace CashFlow.Infrastructure
 {
     public static class DependencyInjectionExtension
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-        {           
-          
+        {
             AddToken(services, configuration);
             AddRepositories(services);
 
             if (!configuration.IsTestEnvironment())
                 AddDbContext(services, configuration);
         }
+
+
 
         private static void AddRepositories(IServiceCollection services)
         {
@@ -55,7 +57,12 @@ namespace CashFlow.Infrastructure
             var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpiresMinutes");
             var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
 
-            services.AddScoped<IAccessTokenGenarator>(configuration => new JwtTokenGenerator(expirationTimeMinutes,signingKey!));
+            services.AddScoped<IAccessTokenGenarator>(configuration =>
+            {
+                var redis = configuration.GetRequiredService<IConnectionMultiplexer>();
+
+                return new JwtTokenGenerator(expirationTimeMinutes, signingKey!, redis);
+            });
         }
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {
@@ -63,7 +70,7 @@ namespace CashFlow.Infrastructure
 
             var version = new Version(8, 0, 43);
             var serverVersion = new MySqlServerVersion(version);
-            
+
             services.AddDbContext<CashFlowDbContext>(config => config.UseMySql(connectionString, serverVersion));
         }
     }

@@ -5,14 +5,15 @@ using CashFlow.Domain.Repositories.User;
 using CashFlow.Exception;
 using CashFlow.Exception.ExceptionsBase;
 using FluentValidation.Results;
-using Microsoft.IdentityModel.Tokens.Experimental;
+using StackExchange.Redis;
 
 namespace CashFlow.Application.UseCases.User.UpdateProfile
 {
     public class UpdateUserProfileUseCase(ILoggerUser loggerUser,
                                           IUserUpdateOnlyRepository userUpdateOnlyRepository,
                                           IUserReadOnlyRepository userReadOnlyRepository,
-                                          IUnitOfWork unitOfWork) : IUpdateUserProfileUseCase
+                                          IUnitOfWork unitOfWork,
+                                          IConnectionMultiplexer redis) : IUpdateUserProfileUseCase
     {
 
 
@@ -30,6 +31,9 @@ namespace CashFlow.Application.UseCases.User.UpdateProfile
             userUpdateOnlyRepository.Update(userEntity);
 
             await unitOfWork.Commit();
+
+            var redisDb = redis.GetDatabase();
+            await redisDb.KeyDeleteAsync($"userId:{user.Id}");
 
         }
 
