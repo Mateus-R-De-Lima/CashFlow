@@ -3,15 +3,22 @@ version: "3.9"
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql_db   
-    environment:      
-      MYSQL_DATABASE: cashflowdb     
+    container_name: mysql_db
+    environment:
+      MYSQL_DATABASE: cashflowdb
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - mynetwork
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
     networks:
       - mynetwork
 
