@@ -58,7 +58,7 @@ namespace CashFlow.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Expenses_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
